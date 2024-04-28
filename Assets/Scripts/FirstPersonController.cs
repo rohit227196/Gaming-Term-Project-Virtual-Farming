@@ -23,10 +23,13 @@ public class FirstPersonController : MonoBehaviour
     private bool IsSprinting => Input.GetKey(sprintKey);
     private bool ShouldJump => Input.GetKeyDown(jumpKey) && characterController.isGrounded;
 
+    
     private KeyCode sprintKey = KeyCode.LeftShift;
     private KeyCode jumpKey = KeyCode.Space;
+    private KeyCode interactKey = KeyCode.Mouse0;
 
     [SerializeField] private bool canBob = true;
+    [SerializeField] private bool canInteract = true;
 
     [Header("Movement Parameters")]
     [SerializeField] private float walkSpeed = 3.0f;
@@ -57,7 +60,6 @@ public class FirstPersonController : MonoBehaviour
     private Vector2 currentInput;
 
     private float rotationX = 0.0f;
-    private float rotationY = 0.0f;
 
     private void Awake()
     {
@@ -78,6 +80,12 @@ public class FirstPersonController : MonoBehaviour
 
             if (canBob)
                 HandleHeadBob();
+
+            if(canInteract)
+            {
+                HandleInteractionCheck();
+                HandleInteractionInput();
+            }
 
             ApplyFinalMovement();
 
@@ -121,6 +129,39 @@ public class FirstPersonController : MonoBehaviour
                 defaultPos + Mathf.Sin(timer) * (IsSprinting ? sprintBobAmount : walkBobAmount),
                 playerCamera.transform.localPosition.z
                 );
+        }
+    }
+
+    [Header("Interaction")]
+    [SerializeField] private Vector3 interactionRayPoint = default;
+    [SerializeField] private float interactionDistance = default;
+    [SerializeField] private LayerMask interactionLayer = default;
+    private Interactable currentInteractable;
+
+    private void HandleInteractionCheck()
+    {
+        if(Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out RaycastHit hit, interactionDistance))
+        {
+            if(hit.collider.gameObject.layer == 6 && (currentInteractable == null || hit.collider.gameObject.GetInstanceID() != currentInteractable.GetInstanceID()))
+            {
+                hit.collider.TryGetComponent(out currentInteractable);
+
+                if (currentInteractable)
+                    currentInteractable.OnFocus();
+            }
+        }
+        else if(currentInteractable)
+        {
+            currentInteractable.OnLoseFocus();
+            currentInteractable = null;
+        }
+    }
+
+    private void HandleInteractionInput()
+    {
+        if(Input.GetKeyDown(interactKey) && currentInteractable != null && Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out RaycastHit hit, interactionDistance, interactionLayer))
+        {
+            currentInteractable.OnInteract();
         }
     }
 
