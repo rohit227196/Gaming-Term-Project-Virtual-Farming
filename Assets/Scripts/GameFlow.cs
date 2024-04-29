@@ -63,19 +63,4 @@ public class GameFlow : MonoBehaviour
 
     }
 
-    public void cancelButton()
-    {
-        headText.GetComponent<TextMeshProUGUI>().text = "";
-        descText.GetComponent<TextMeshProUGUI>().text = "";
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-
-        GameObject.Find("FarmerWithAnimations").GetComponent<FirstPersonController>().enabled = true;
-        GameObject.Find("Game Manager").GetComponent<PauseAndPlayScript>().enabled = true;
-
-        Play_Canvas.SetActive(true);
-        PPE_Canvas.SetActive(false);
-        PPE_Canvas.SetActive(false);
-    }
 }

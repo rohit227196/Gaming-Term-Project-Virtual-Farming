@@ -18,7 +18,6 @@ public class EquipPPE : MonoBehaviour
     [SerializeField] private GameObject Play_Canvas;
 
     [SerializeField] private Button Equip;
-    [SerializeField] private Button Cancel;
 
     void Awake()
     {
