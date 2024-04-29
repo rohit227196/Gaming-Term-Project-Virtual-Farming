@@ -6,7 +6,7 @@ public class PauseAndPlayScript : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject playMenu;
-    private bool isPaused = false;
+    public static bool isPaused = false;
 
     void Awake()
     {
@@ -25,6 +25,8 @@ public class PauseAndPlayScript : MonoBehaviour
             Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = isPaused;
             Time.timeScale = isPaused ? 0.0f : 1.0f;
+
+            GameObject.Find("FarmerWithAnimations").GetComponent<FirstPersonController>().enabled = !isPaused;
 
             isPaused = !isPaused;
         }
