@@ -17,21 +17,23 @@ public class EquipPPE : MonoBehaviour
     [SerializeField] private GameObject PPE_Canvas;
     [SerializeField] private GameObject Play_Canvas;
 
-    private Animator anim;
+    [SerializeField] private Button Equip;
+    [SerializeField] private Button Cancel;
 
     void Awake()
     {
-        anim = PPE_Canvas.GetComponent<Animator>();
-        GameFlow.PPE_Canvas = PPE_Canvas;
-        GameFlow.Play_Canvas = Play_Canvas;
-        GameFlow.headText = headText;
-        GameFlow.descText = descText;
-        GameFlow.currentButtonObject = gameObject;
+
     }
 
 
     private void OnMouseDown()
     {
+        GameFlow.headText = headText;
+        GameFlow.descText = descText; 
+        GameFlow.PPE_Canvas = PPE_Canvas;
+        GameFlow.Play_Canvas = Play_Canvas;
+        GameFlow.currentButtonObject = gameObject;
+
         headText.GetComponent<TextMeshProUGUI>().text = textForHead;
         descText.GetComponent<TextMeshProUGUI>().text = textForDesc;
         Play_Canvas.SetActive(false);
@@ -41,9 +43,6 @@ public class EquipPPE : MonoBehaviour
         GameObject.Find("Game Manager").GetComponent<PauseAndPlayScript>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;  
-
-        anim.SetTrigger("Open");
     }
-
 
 }

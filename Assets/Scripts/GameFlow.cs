@@ -6,22 +6,25 @@ using UnityEngine.UI;
 
 public class GameFlow : MonoBehaviour
 {
+    public GameObject[] PPE_non_static;
+    public GameObject[] toggleObjects;
     public static GameObject[] PPE;
-    public static GameObject[] toggleObjects;
     public static Toggle[] toggler;
 
     public static GameObject currentButtonObject;
-    public static GameObject PPE_Canvas;
-    public static GameObject Play_Canvas;
     public static GameObject headText;
     public static GameObject descText;
 
-
+    public static GameObject PPE_Canvas;
+    public static GameObject Play_Canvas;
 
     void Start()
     {
-        for (int i = 0; i < PPE.Length; i++)
+        toggler = new Toggle[toggleObjects.Length];
+        PPE = new GameObject[PPE_non_static.Length];
+        for (int i = 0; i < PPE_non_static.Length; i++)
         {
+            PPE[i] = PPE_non_static[i];
             toggler[i] = toggleObjects[i].GetComponent<Toggle>();
         }
     }
@@ -43,47 +46,36 @@ public class GameFlow : MonoBehaviour
         }
     }
 
-
-
     public void equipButton()
     {
-
-        checkObj1(currentButtonObject);
-
-        PPE_Canvas.GetComponent<Animator>().enabled = true;
-        PPE_Canvas.GetComponent<Animator>().SetTrigger("Close");
-        PPE_Canvas.GetComponent<Animator>().enabled = false;
         headText.GetComponent<TextMeshProUGUI>().text = "";
         descText.GetComponent<TextMeshProUGUI>().text = "";
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-       
+
         GameObject.Find("FarmerWithAnimations").GetComponent<FirstPersonController>().enabled = true;
         GameObject.Find("Game Manager").GetComponent<PauseAndPlayScript>().enabled = true;
-        
+
         Play_Canvas.SetActive(true);
         PPE_Canvas.SetActive(false);
+        checkObj1(gameObject);
+        gameObject.SetActive(false);
 
-        currentButtonObject.SetActive(false);
     }
 
     public void cancelButton()
     {
-        if (PPE_Canvas.activeSelf)
-        {
-            PPE_Canvas.GetComponent<Animator>().enabled = true;
-            PPE_Canvas.GetComponent<Animator>().SetTrigger("Close");
-            PPE_Canvas.GetComponent<Animator>().enabled = false;
-            headText.GetComponent<TextMeshProUGUI>().text = "";
-            descText.GetComponent<TextMeshProUGUI>().text = "";
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+        headText.GetComponent<TextMeshProUGUI>().text = "";
+        descText.GetComponent<TextMeshProUGUI>().text = "";
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
-            GameObject.Find("FarmerWithAnimations").GetComponent<FirstPersonController>().enabled = true;
-            GameObject.Find("Game Manager").GetComponent<PauseAndPlayScript>().enabled = true;
 
-            Play_Canvas.SetActive(true);
-            PPE_Canvas.SetActive(false);
-        }
+        GameObject.Find("FarmerWithAnimations").GetComponent<FirstPersonController>().enabled = true;
+        GameObject.Find("Game Manager").GetComponent<PauseAndPlayScript>().enabled = true;
+
+        Play_Canvas.SetActive(true);
+        PPE_Canvas.SetActive(false);
+        PPE_Canvas.SetActive(false);
     }
 }
