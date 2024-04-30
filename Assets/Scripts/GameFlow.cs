@@ -8,6 +8,10 @@ public class GameFlow : MonoBehaviour
 {
     public GameObject[] PPE_non_static;
     public GameObject[] toggleObjects;
+    public GameObject obj1;
+    public GameObject obj2;
+    public GameObject cameraPump;
+    public GameObject farmWall;
     public static GameObject[] PPE;
     public static Toggle[] toggler;
 
@@ -20,6 +24,7 @@ public class GameFlow : MonoBehaviour
 
     void Start()
     {
+        PPE_non_static[6].GetComponent<BoxCollider>().enabled = false;
         toggler = new Toggle[toggleObjects.Length];
         PPE = new GameObject[PPE_non_static.Length];
         for (int i = 0; i < PPE_non_static.Length; i++)
@@ -31,6 +36,20 @@ public class GameFlow : MonoBehaviour
 
     void Update()
     {
+
+        if(isObj1FUll())
+        {
+            obj1.SetActive(false);
+            obj2.SetActive(true);
+            PPE_non_static[6].GetComponent<BoxCollider>().enabled = true;
+            farmWall.SetActive(false);
+        }
+
+        if (toggler[toggler.Length-1].isOn)
+        {
+            obj2.SetActive(false);
+            cameraPump.SetActive(true);
+        }
 
     }
 
@@ -66,5 +85,15 @@ public class GameFlow : MonoBehaviour
         PPE_Canvas.SetActive(false);
 
     }
+    
 
+    public bool isObj1FUll()
+    {
+        for(int i = 0; i < toggler.Length-1; i++) 
+        {
+            if (!toggler[i].isOn)
+                return false;
+        }
+        return true;
+    }
 }
