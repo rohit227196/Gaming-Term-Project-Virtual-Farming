@@ -58,8 +58,12 @@ public class GameFlow : MonoBehaviour
 
         Play_Canvas.SetActive(true);
         PPE_Canvas.SetActive(false);
-        checkObj1(gameObject);
-        gameObject.SetActive(false);
+        checkObj1(currentButtonObject);
+        currentButtonObject.SetActive(false);
+
+
+        Play_Canvas.SetActive(true);
+        PPE_Canvas.SetActive(false);
 
     }
 
