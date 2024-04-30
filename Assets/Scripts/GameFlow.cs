@@ -22,6 +22,8 @@ public class GameFlow : MonoBehaviour
     public static GameObject PPE_Canvas;
     public static GameObject Play_Canvas;
 
+    public static bool done = false;
+
     void Start()
     {
         PPE_non_static[6].GetComponent<BoxCollider>().enabled = false;
@@ -49,6 +51,7 @@ public class GameFlow : MonoBehaviour
         {
             obj2.SetActive(false);
             cameraPump.SetActive(true);
+            done = true;
         }
 
     }
